@@ -1,17 +1,32 @@
 # react + graphql + apollo client
 
-## npx create-react-app 설치
+## 설치
+
+### npx create-react-app 설치
 
 ```
 > npx create-react-app react-movieql-client
 ```
 
-## apollo client + react-router-dom
+### apollo client + react-router-dom
 
 ```
  npm install @apollo/client graphql
  npm install react-router-dom@6
 ```
+
+### 스타일
+
+- sass
+- styled-components
+
+```
+npm i sass styled-components
+```
+
+## apollo client
+
+- [apollo client api](https://www.apollographql.com/docs/react)
 
 ## Apollo Client Devtools
 
@@ -21,12 +36,3 @@
 ## useQuery
 
 ## useParam
-
-## 스타일
-
-- sass
-- styled-components
-
-```
-npm i sass styled-components
-```
