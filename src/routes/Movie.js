@@ -50,7 +50,11 @@ const Image = styled.div`
 
 export default function Movie() {
   const { id } = useParams()
-  const { data, loading } = useQuery(GET_MOVIE, {
+  const {
+    data,
+    loading,
+    client: { cache },
+  } = useQuery(GET_MOVIE, {
     variables: {
       movieId: id,
     },
@@ -59,12 +63,31 @@ export default function Movie() {
   if (loading) {
     return <h1>Fetcing Movie...</h1>
   }
+
+  const onClick = () => {
+    // cache 정보는 브라우저가 닫히기 전까지 유지
+    cache.writeFragment({
+      id: `Movie:${id}`, // Apollo development tool > Cache 참고
+
+      // fragment는 타입의 일종으로 gql에 어떤 타입이 쓰일것인지 알려준다.
+      fragment: gql`
+        fragment MovieFragment on Movie {
+          isLiked
+        }
+      `,
+
+      // data는 실제 어떤 데이터가 들어가는지 알려준다.
+      data: {
+        isLiked: !data.movie.isLiked,
+      },
+    })
+  }
   return (
     <Container>
       <Column>
         <Title>{loading ? "Loading..." : `${data.movie.title}`}</Title>
         <Subtitle>⭐️ {data?.movie?.rating}</Subtitle>
-        <button>{data?.movie?.isLiked ? "UnLike" : "Like"}</button>
+        <button onClick={onClick}>{data?.movie?.isLiked ? "UnLike" : "Like"}</button>
       </Column>
       <Image bg={data?.movie?.medium_cover_image} />
     </Container>
